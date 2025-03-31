@@ -1,27 +1,76 @@
 cinfo() {
     # Usage: cinfo "message"
+    # Print an info message in green
     echo -e "${COLOR_GREEN}[INFO] $1${COLOR_RESET}"
 }
 
 cwarn() {
     # Usage: cwarn "message"
+    # Print a warning message in yellow
     echo -e "${COLOR_YELLOW}[WARN] $1${COLOR_RESET}"
 }
 
 cerror() {
     # Usage: cerror "message"
+    # Print an error message in red
     echo -e "${COLOR_RED}[ERROR] $1${COLOR_RESET}"
 }
 
 check_distro() {
     # Usage: check_distro
+    # Check the distribution of the system
     if [ -f /etc/os-release ]; then
         . /etc/os-release
-        DISTRO=$NAME
+        export DISTRO=$ID
     else
-        DISTRO=$(uname -s)
+        cerror "Cannot detect distribution. /etc/os-release not found"
+        exit 1
     fi
+
     cinfo "Distro: $DISTRO"
+}
+
+update_system() {
+    # Usage: update_system
+    # Update the system based on the distribution
+    cinfo "Updating system..."
+
+    case "$DISTRO" in
+    ubuntu | debian)
+        sudo apt update -y
+        sudo apt upgrade -y
+        ;;
+    centos | rhel | fedora)
+        if command -v dnf >/dev/null 2>&1; then
+            sudo dnf update -y
+        else
+            sudo yum update -y
+        fi
+        ;;
+    arch | manjaro)
+        sudo pacman -Syu --noconfirm
+        ;;
+    opensuse | suse)
+        sudo zypper refresh
+        sudo zypper update -y
+        ;;
+    *)
+        cerror -e "Unsupported distribution: $DISTRO"
+        echo "Please update manually."
+        exit 1
+        ;;
+    esac
+
+    cinfo "System updated successfully!"
+}
+
+check_shell() {
+    # Usage: check_shell
+    # Check the shell being used
+    if [ -z "$SHELL" ]; then
+        SHELL=$(basename "$0")
+    fi
+    cinfo "Shell: $SHELL"
 }
 
 check_bin() {

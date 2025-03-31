@@ -1,0 +1,8 @@
+alias ls='ls --color=auto'
+alias ll='ls -la'
+alias python='python3'
+alias pip='pip3'
+alias vim='nvim'
+alias vi='nvim'
+alias cat='batcat'
+alias grep='grep --color=auto'
