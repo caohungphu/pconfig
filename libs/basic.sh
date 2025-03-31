@@ -30,6 +30,24 @@ check_distro() {
     cinfo "Distro: $DISTRO"
 }
 
+check_kernel() {
+    # Usage: check_kernel
+    # Check the kernel version
+    if [ -z "$KERNEL" ]; then
+        export KERNEL=$(uname -r)
+    fi
+    cinfo "Kernel: $KERNEL"
+}
+
+check_machine() {
+    # Usage: check_machine
+    # Check the uname version
+    if [ -z "$MACHINE" ]; then
+        export MACHINE=$(uname -m)
+    fi
+    cinfo "Machine: $MACHINE"
+}
+
 update_system() {
     # Usage: update_system
     # Update the system based on the distribution
