@@ -10,11 +10,7 @@ export P_PATH_SCRIPTS="${P_PATH_REPO}/scripts"
 # Load libraries
 source "${P_PATH_LIBS}/central.sh"
 
-# Get distro, kernel and machine
-check_distro
-check_kernel
-check_machine
-
+# Function to check the distribution
 install_with_distro() {
     # Function to install a package using the appropriate package manager for the distribution
     # Arguments:
@@ -46,3 +42,12 @@ install_with_distro() {
         ;;
     esac
 }
+
+# main function
+main() {
+    check_distro
+    check_kernel
+    check_machine
+}
+
+main
