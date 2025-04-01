@@ -13,11 +13,9 @@ if ! command -v docker &>/dev/null; then
         cinfo "Adding docker repository..."
         case $DISTRO in
         debian)
-            add_repo_with_distro $DISTRO "https://download.docker.com/linux/debian/gpg"
             add_repo_with_distro $DISTRO "https://download.docker.com/linux/debian/docker-ce.repo"
             ;;
         centos | rhel | almalinux)
-            add_repo_with_distro $DISTRO "https://download.docker.com/linux/centos/gpg"
             add_repo_with_distro $DISTRO "https://download.docker.com/linux/centos/docker-ce.repo"
             ;;
         *)
