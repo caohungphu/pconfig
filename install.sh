@@ -14,7 +14,7 @@ if [ ! -d "${P_PATH_REPO}" ]; then
     fi
     echo "Repository cloned successfully to ${P_PATH_REPO}."
 else
-    git pull origin main
+    git -C "${P_PATH_REPO}" pull origin main
     if [ $? -ne 0 ]; then
         echo "Failed to update repository."
         exit 1
