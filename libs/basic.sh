@@ -58,7 +58,7 @@ update_system() {
         sudo apt update -y
         sudo apt upgrade -y
         ;;
-    centos | rhel | fedora)
+    centos | rhel | fedora | almalinux)
         if command -v dnf >/dev/null 2>&1; then
             sudo dnf update -y
         else
