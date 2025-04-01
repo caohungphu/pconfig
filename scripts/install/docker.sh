@@ -10,6 +10,22 @@ if ! command -v docker &>/dev/null; then
     if [ $? -ne 0 ]; then
         cerror "Failed to install docker."
         cinfo "Try installing docker with package manager..."
+        cinfo "Adding docker repository..."
+        case $DISTRO in
+        debian)
+            add_repo_with_distro $DISTRO "https://download.docker.com/linux/debian/gpg"
+            add_repo_with_distro $DISTRO "https://download.docker.com/linux/debian/docker-ce.repo"
+            ;;
+        centos | rhel | almalinux)
+            add_repo_with_distro $DISTRO "https://download.docker.com/linux/centos/gpg"
+            add_repo_with_distro $DISTRO "https://download.docker.com/linux/centos/docker-ce.repo"
+            ;;
+        *)
+            cerror "Unsupported distribution: $DISTRO"
+            echo "Please install docker manually."
+            exit 1
+            ;;
+        esac
         install_with_distro $DISTRO "docker-ce docker-ce-cli containerd.io docker-compose-plugin"
     fi
     cinfo "docker installed..."

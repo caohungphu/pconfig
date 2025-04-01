@@ -10,7 +10,41 @@ export P_PATH_SCRIPTS="${P_PATH_REPO}/scripts"
 # Load libraries
 source "${P_PATH_LIBS}/central.sh"
 
-# Function to check the distribution
+add_repo_with_distro() {
+    # Function to add a repository using the appropriate package manager for the distribution
+    # Arguments:
+    #   $1: Distribution name (e.g., ubuntu, debian, fedora, arch)
+    #   $2: Repository URL to add
+    # Example usage:
+    #   add_repo_with_distro ubuntu ppa:git-core/ppa
+    #   add_repo_with_distro fedora https://download.docker.com/linux/fedora/docker-ce.repo
+    local distro=$1
+    local repo=$2
+
+    cinfo "Adding repository for $distro..."
+
+    case $distro in
+    ubuntu | debian)
+        sudo add-apt-repository -y $repo
+        ;;
+    fedora | rhel | centos | almalinux)
+        sudo dnf config-manager --add-repo $repo
+        ;;
+    arch)
+        sudo pacman-key --init
+        sudo pacman-key --populate archlinux
+        sudo pacman-key --recv-keys $(curl -sSL $repo | grep 'KEY' | awk '{print $2}')
+        ;;
+    *)
+        echo "Unsupported distribution: $distro"
+        echo "Please add the repository manually."
+        echo "Exiting..."
+        exit 1
+        ;;
+    esac
+}
+
+# Install with distro
 install_with_distro() {
     # Function to install a package using the appropriate package manager for the distribution
     # Arguments:
