@@ -73,7 +73,7 @@ update_system() {
         sudo zypper update -y
         ;;
     *)
-        cerror -e "Unsupported distribution: $DISTRO"
+        cerror "Unsupported distribution: $DISTRO"
         echo "Please update manually."
         exit 1
         ;;
