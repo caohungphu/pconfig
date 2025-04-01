@@ -10,7 +10,7 @@ if ! command -v docker &>/dev/null; then
     if [ $? -ne 0 ]; then
         cerror "Failed to install docker."
         cinfo "Try installing docker with package manager..."
-        install_with_distro $DISTRO "docker-ce docker-ce-cli containerd.io"
+        install_with_distro $DISTRO "docker-ce docker-ce-cli containerd.io docker-compose-plugin"
     fi
     cinfo "docker installed..."
 else
