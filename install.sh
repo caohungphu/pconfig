@@ -5,9 +5,6 @@ export P_REPO="https://github.com/caohungphu/pconfig"
 export P_PATH_REPO="${HOME}/.pconfig"
 export P_PATH_LIBS="${P_PATH_REPO}/libs"
 
-# Main
-cinfo "Initalizing pconfig..."
-
 # Clone the repository if it doesn't exist
 if [ ! -d "${P_PATH_REPO}" ]; then
     git clone ${P_REPO} ${P_PATH_REPO}
@@ -27,6 +24,8 @@ fi
 
 # Load libraries
 source "${P_PATH_LIBS}/central.sh"
+
+cinfo "Initalizing pconfig..."
 
 # Check info
 check_distro
