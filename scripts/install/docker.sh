@@ -7,6 +7,11 @@ cinfo "=== Installing docker ==="
 if ! command -v docker &>/dev/null; then
     cinfo "Installing docker..."
     curl -fsSL https://get.docker.com | sudo sh
+    if [ $? -ne 0 ]; then
+        cerror "Failed to install docker."
+        cinfo "Try installing docker with package manager..."
+        install_with_distro $DISTRO "docker-ce docker-ce-cli containerd.io"
+    fi
     cinfo "docker installed..."
 else
     cwarn "docker is already installed."

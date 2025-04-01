@@ -28,8 +28,12 @@ install_with_distro() {
     ubuntu | debian)
         sudo apt-get install -y $package
         ;;
-    fedora)
-        sudo dnf install -y $package
+    fedora | rhel | centos | almalinux)
+        if command -v dnf >/dev/null 2>&1; then
+            sudo dnf install -y $package
+        else
+            sudo yum install -y $package
+        fi
         ;;
     arch)
         sudo pacman -S --noconfirm $package
