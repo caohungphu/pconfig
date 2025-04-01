@@ -40,4 +40,14 @@ else
     exit 1
 fi
 
+# Enable and start docker service
+sudo systemctl enable docker
+sudo systemctl start docker
+if [ $? -eq 0 ]; then
+    cinfo "Docker service started successfully."
+else
+    cerror "Failed to start docker service."
+    exit 1
+fi
+
 cinfo "=== Installing docker ==="
