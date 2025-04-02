@@ -81,6 +81,25 @@ install_with_distro() {
     esac
 }
 
+# add to config
+add_to_config() {
+    # Function to add a line to a configuration file
+    # Arguments:
+    #   $1: Configuration file path
+    #   $2: Line to add
+    # Example usage:
+    #   add_to_config ~/.bashrc "export PATH=\$PATH:/usr/local/bin"
+    local config_file=$1
+    local line=$2
+
+    if ! grep -qF "$line" "$config_file"; then
+        echo "$line" >>"$config_file"
+        cinfo "Added $line to $config_file"
+    else
+        cwarn "Line already exists in $config_file"
+    fi
+}
+
 # main function
 main() {
     check_distro
